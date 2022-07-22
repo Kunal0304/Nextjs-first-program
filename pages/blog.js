@@ -3,22 +3,25 @@ import Link from 'next/link'
 import style from '../styles/blog.module.css'
 
 
-const Blog = () =>
+const Blog = (props) =>
 {
-  const [itemblogs, setitemBlogs] = useState([])
+  // console.log(props ,"props")
+  const [itemblogs, setitemBlogs] = useState(props.mydata)
 
-  useEffect(() =>
-  {
-    console.log("useEffect is running")
-    fetch("http://localhost:3000/api/blogs").then(
-      (a) => { return a.json(); }).then(
-        (parsedata) =>
-        {
-          // console.log(parsedata, "parsedata")
-          setitemBlogs(parsedata)
+  //*************normlly client side fetching data**********************// 
 
-        }).catch(err => console.log(err))
-  }, [])
+  // useEffect(() =>
+  // {
+  //   // console.log("useEffect is running")
+  //   fetch("http://localhost:3000/api/blogs").then(
+  //     (a) => { return a.json(); }).then(
+  //       (parsedata) =>
+  //       {
+  //         // console.log(parsedata, "parsedata")
+  //         setitemBlogs(parsedata)
+
+  //       }).catch(err => console.log(err))
+  // }, [])
 
   // console.log(blogs, "blog useState is not running yet")
   return (
@@ -37,6 +40,19 @@ const Blog = () =>
       }
     </div>
   );
+
+}
+
+  //*************serverside fetching data**********************// 
+
+export async function getServerSideProps(context)
+{
+  let data = await fetch("http://localhost:3000/api/blogs")
+  let mydata = await data.json()
+  
+  return {
+    props: { mydata }, // will be passed to the page component as props
+  }
 }
 
 export default Blog
