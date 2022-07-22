@@ -1,52 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import style from '../styles/blog.module.css'
-function blog() {
+
+
+const Blog = () =>
+{
+  const [itemblogs, setitemBlogs] = useState([])
+
+  useEffect(() =>
+  {
+    console.log("useEffect is running")
+    fetch("http://localhost:3000/api/blogs").then(
+      (a) => { return a.json(); }).then(
+        (parsedata) =>
+        {
+          // console.log(parsedata, "parsedata")
+          setitemBlogs(parsedata)
+
+        }).catch(err => console.log(err))
+  }, [])
+
+  // console.log(blogs, "blog useState is not running yet")
   return (
     <div className={style.container}>
-        <Link href={"./routerdemo/javascriptBlogPost "}>
-      <div className="blog">
-          <h3 className="blogHead">JavaScript</h3>
-          <p className="blogAbout">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
-            minima rerum, iusto deserunt dolor dolorem unde ex vero
-            exercitationem commodi consectetur molestiae nobis nulla quis ipsum
-            eaque iste similique perferendis.
-          </p>
-      </div>
-        </Link>
 
-      <div className="blog">
-          <h3 className="blogHead">JavaScript</h3>
-          <p className="blogAbout">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
-            minima rerum, iusto deserunt dolor dolorem unde ex vero
-            exercitationem commodi consectetur molestiae nobis nulla quis ipsum
-            eaque iste similique perferendis.
-          </p>
-      </div>
-
-      <div className="blog">
-        <h3 className="blogHead">JavaScript</h3>
-        <p className="blogAbout">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
-          minima rerum, iusto deserunt dolor dolorem unde ex vero exercitationem
-          commodi consectetur molestiae nobis nulla quis ipsum eaque iste
-          similique perferendis.
-        </p>
-      </div>
-
-      <div className="blog">
-        <h3 className="blogHead">JavaScript</h3>
-        <p className="blogAbout">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
-          minima rerum, iusto deserunt dolor dolorem unde ex vero exercitationem
-          commodi consectetur molestiae nobis nulla quis ipsum eaque iste
-          similique perferendis.
-        </p>
-      </div>
+      {
+        itemblogs?.map(blogitem =>
+        {
+          return <div className="blog" key={blogitem.title}>
+            <Link href={`/blogpost/${blogitem.slug}`}>
+              <h3 className="blogHead">{blogitem.title}</h3>
+            </Link>
+              <p className="blogAbout">{blogitem.content.substr(0, 140)}...</p>
+          </div>
+        })
+      }
     </div>
   );
 }
 
-export default blog
+export default Blog

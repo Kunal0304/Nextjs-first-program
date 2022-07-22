@@ -2,7 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/routerdemo/[slug]": "pages/routerdemo/[slug].js",
-  "/about": "pages/about.js",
-  "/blog": "pages/blog.js"
+  "/api/getblogs": "pages/api/getblogs.js",
+  "/": "pages/index.js",
+  "/blog": "pages/blog.js",
+  "/api/blogs": "pages/api/blogs.js",
+  "/blogpost/[slug]": "pages/blogpost/[slug].js"
 }
